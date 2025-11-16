@@ -39,7 +39,7 @@ local Library = {
 
     Black = Color3.new(0, 0, 0);
     Font = Enum.Font.Code,
-    FontFace = Font.new(getcustomasset("BlackDisciplesHook/" .. getgenv().GlobalFont), Enum.FontWeight.Regular),
+    FontFace = Font.new(getcustomasset("BlackDisciplesHook/ProggyClean.font"), Enum.FontWeight.Regular),
 
     OpenedFrames = {};
     DependencyBoxes = {};
