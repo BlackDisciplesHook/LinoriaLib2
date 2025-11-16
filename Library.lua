@@ -356,6 +356,16 @@ function Library:RemoveFromRegistry(Instance)
 end;
 
 function Library:UpdateColorsUsingRegistry()
+    -- TODO: Could have an 'active' list of objects
+    -- where the active list only contains Visible objects.
+
+    -- IMPL: Could setup .Changed events on the AddToRegistry function
+    -- that listens for the 'Visible' propert being changed.
+    -- Visible: true => Add to active list, and call UpdateColors function
+    -- Visible: false => Remove from active list.
+
+    -- The above would be especially efficient for a rainbow menu color or live color-changing.
+
     for Idx, Object in next, Library.Registry do
         for Property, ColorIdx in next, Object.Properties do
             if type(ColorIdx) == 'string' then
@@ -368,16 +378,19 @@ function Library:UpdateColorsUsingRegistry()
 end;
 
 function Library:GiveSignal(Signal)
+    -- Only used for signals not attached to library instances, as those should be cleaned up on object destruction by Roblox
     table.insert(Library.Signals, Signal)
 end
 
 function Library:Unload()
+    -- Unload all of the signals
     for Idx = #Library.Signals, 1, -1 do
         local Connection = table.remove(Library.Signals, Idx)
         Connection:Disconnect()
     end
 
-     if Library.OnUnload then
+     -- Call our unload callback, maybe to undo some hooks etc
+    if Library.OnUnload then
         Library.OnUnload()
     end
 
@@ -401,6 +414,7 @@ do
 
     function Funcs:AddColorPicker(Idx, Info)
         local ToggleLabel = self.TextLabel;
+        -- local Container = self.Container;
 
         assert(Info.Default, 'AddColorPicker: Missing default value.');
 
@@ -431,6 +445,7 @@ do
             Parent = ToggleLabel;
         });
 
+        -- Transparency image taken from https://github.com/matas3535/SplixPrivateDrawingLibrary/blob/main/Library.lua cus i'm lazy
         local CheckerFrame = Library:Create('ImageLabel', {
             BorderSizePixel = 0;
             Size = UDim2.new(0, 27, 0, 13);
@@ -439,6 +454,11 @@ do
             Visible = not not Info.Transparency;
             Parent = DisplayFrame;
         });
+
+        -- 1/16/23
+        -- Rewrote this to be placed inside the Library ScreenGui
+        -- There was some issue which caused RelativeOffset to be way off
+        -- Thus the color picker would never show
 
         local PickerFrameOuter = Library:Create('Frame', {
             Name = 'Color';
@@ -590,7 +610,7 @@ do
             Position = UDim2.new(0.5, 2, 0, 228),
             Size = UDim2.new(0.5, -6, 0, 20),
             Parent = PickerFrameInner
-        })
+        });
 
         local RgbBox = Library:Create(RgbBoxBase.Frame:FindFirstChild('TextBox'), {
             Text = '255, 255, 255',
@@ -644,7 +664,7 @@ do
             Position = UDim2.fromOffset(5, 5);
             TextXAlignment = Enum.TextXAlignment.Left;
             TextSize = 12;
-            Text = ColorPicker.Title,
+            Text = ColorPicker.Title,--Info.Default;
             TextWrapped = false;
             ZIndex = 16;
             Parent = PickerFrameInner;
@@ -764,6 +784,7 @@ do
                 end
                 ColorPicker:SetValueRGB(Library.ColorClipboard)
             end)
+
 
             ContextMenu:AddOption('Copy HEX', function()
                 pcall(setclipboard, ColorPicker.Value:ToHex())
@@ -994,7 +1015,7 @@ do
         local KeyPicker = {
             Value = Info.Default;
             Toggled = false;
-            Mode = Info.Mode or 'Toggle';
+            Mode = Info.Mode or 'Toggle'; -- Always, Toggle, Hold
             Type = 'KeyPicker';
             Callback = Info.Callback or function(Value) end;
             ChangedCallback = Info.ChangedCallback or function(New) end;
@@ -1388,6 +1409,7 @@ do
     end;
 
     function Funcs:AddButton(...)
+        -- TODO: Eventually redo this
         local Button = {};
         local function ProcessButtonParams(Class, Obj, ...)
             local Props = select(1, ...)
@@ -1533,6 +1555,7 @@ do
             end
             return self
         end
+
 
         function Button:AddButton(...)
             local SubButton = {}
@@ -1742,20 +1765,28 @@ do
             end);
         end
 
+        -- https://devforum.roblox.com/t/how-to-make-textboxes-follow-current-cursor-position/1368429/6
+        -- thank you nicemike40 :)
+
         local function Update()
             local PADDING = 2
             local reveal = Container.AbsoluteSize.X
 
             if not Box:IsFocused() or Box.TextBounds.X <= reveal - 2 * PADDING then
+                -- we aren't focused, or we fit so be normal
                 Box.Position = UDim2.new(0, PADDING, 0, 0)
             else
+                -- we are focused and don't fit, so adjust position
                 local cursor = Box.CursorPosition
                 if cursor ~= -1 then
+                    -- calculate pixel width of text from start to cursor
                     local subtext = string.sub(Box.Text, 1, cursor-1)
                     local width = TextService:GetTextSize(subtext, Box.TextSize, Box.Font, Vector2.new(math.huge, math.huge)).X
 
+                    -- check if we're inside the box with the cursor
                     local currentCursorPos = Box.Position.X.Offset + width
 
+                    -- adjust if necessary
                     if currentCursorPos < PADDING then
                         Box.Position = UDim2.fromOffset(PADDING-width, 0)
                     elseif currentCursorPos > reveal - PADDING - 1 then
@@ -1797,7 +1828,7 @@ do
             Type = 'Toggle';
 
             Callback = Info.Callback or function(Value) end;
-            Addons = {};
+            Addons = {},
             Risky = Info.Risky,
         };
 
@@ -1828,15 +1859,6 @@ do
         Library:AddToRegistry(ToggleInner, {
             BackgroundColor3 = 'MainColor';
             BorderColor3 = 'OutlineColor';
-        });
-
-        local ToggleGradient = Library:Create('UIGradient', {
-            Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Library.MainColor),
-                ColorSequenceKeypoint.new(1, Library:GetDarkerColor(Library.MainColor))
-            });
-            Rotation = 90;
-            Parent = ToggleInner;
         });
 
         local ToggleLabel = Library:CreateLabel({
@@ -1878,25 +1900,11 @@ do
         end
 
         function Toggle:Display()
-            if Toggle.Value then
-                ToggleGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Library.AccentColor),
-                    ColorSequenceKeypoint.new(1, Library.AccentColorDark)
-                });
-                ToggleInner.BorderColor3 = Library.AccentColorDark;
+            ToggleInner.BackgroundColor3 = Toggle.Value and Library.AccentColor or Library.MainColor;
+            ToggleInner.BorderColor3 = Toggle.Value and Library.AccentColorDark or Library.OutlineColor;
 
-                Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = 'AccentColor';
-                Library.RegistryMap[ToggleInner].Properties.BorderColor3 = 'AccentColorDark';
-            else
-                ToggleGradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Library.MainColor),
-                    ColorSequenceKeypoint.new(1, Library:GetDarkerColor(Library.MainColor))
-                });
-                ToggleInner.BorderColor3 = Library.OutlineColor;
-
-                Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = 'MainColor';
-                Library.RegistryMap[ToggleInner].Properties.BorderColor3 = 'OutlineColor';
-            end;
+            Library.RegistryMap[ToggleInner].Properties.BackgroundColor3 = Toggle.Value and 'AccentColor' or 'MainColor';
+            Library.RegistryMap[ToggleInner].Properties.BorderColor3 = Toggle.Value and 'AccentColorDark' or 'OutlineColor';
         end;
 
         function Toggle:OnChanged(Func)
@@ -1924,7 +1932,7 @@ do
 
         ToggleRegion.InputBegan:Connect(function(Input)
             if Input.UserInputType == Enum.UserInputType.MouseButton1 and not Library:MouseIsOverOpenedFrame() then
-                Toggle:SetValue(not Toggle.Value)
+                Toggle:SetValue(not Toggle.Value) -- Why was it not like this from the start?
                 Library:AttemptSave();
             end;
         end);
@@ -2023,15 +2031,6 @@ do
             BorderColor3 = 'AccentColorDark';
         });
 
-        local FillGradient = Library:Create('UIGradient', {
-            Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Library.AccentColor),
-                ColorSequenceKeypoint.new(1, Library.AccentColorDark)
-            });
-            Rotation = 90;
-            Parent = Fill;
-        });
-
         local HideBorderRight = Library:Create('Frame', {
             BackgroundColor3 = Library.AccentColor;
             BorderSizePixel = 0;
@@ -2065,10 +2064,6 @@ do
         function Slider:UpdateColors()
             Fill.BackgroundColor3 = Library.AccentColor;
             Fill.BorderColor3 = Library.AccentColorDark;
-            FillGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Library.AccentColor),
-                ColorSequenceKeypoint.new(1, Library.AccentColorDark)
-            });
         end;
 
         function Slider:Display()
@@ -2097,6 +2092,7 @@ do
             if Slider.Rounding == 0 then
                 return math.floor(Value);
             end;
+
 
             return tonumber(string.format('%.' .. Slider.Rounding .. 'f', Value))
         end;
@@ -2179,7 +2175,7 @@ do
             Value = Info.Multi and {};
             Multi = Info.Multi;
             Type = 'Dropdown';
-            SpecialType = Info.SpecialType;
+            SpecialType = Info.SpecialType; -- can be either 'Player' or 'Team'
             Callback = Info.Callback or function(Value) end;
         };
 
@@ -2402,15 +2398,6 @@ do
                     BorderColor3 = 'OutlineColor';
                 });
 
-                local ButtonGradient = Library:Create('UIGradient', {
-                    Color = ColorSequence.new({
-                        ColorSequenceKeypoint.new(0, Library.MainColor),
-                        ColorSequenceKeypoint.new(1, Library:GetDarkerColor(Library.MainColor))
-                    });
-                    Rotation = 90;
-                    Parent = Button;
-                });
-
                 local ButtonLabel = Library:CreateLabel({
                     Active = false;
                     Size = UDim2.new(1, -6, 1, 0);
@@ -2444,18 +2431,6 @@ do
 
                     ButtonLabel.TextColor3 = Selected and Library.AccentColor or Library.FontColor;
                     Library.RegistryMap[ButtonLabel].Properties.TextColor3 = Selected and 'AccentColor' or 'FontColor';
-                    
-                    if Selected then
-                        ButtonGradient.Color = ColorSequence.new({
-                            ColorSequenceKeypoint.new(0, Library.AccentColor),
-                            ColorSequenceKeypoint.new(1, Library.AccentColorDark)
-                        });
-                    else
-                        ButtonGradient.Color = ColorSequence.new({
-                            ColorSequenceKeypoint.new(0, Library.MainColor),
-                            ColorSequenceKeypoint.new(1, Library:GetDarkerColor(Library.MainColor))
-                        });
-                    end
                 end;
 
                 ButtonLabel.InputBegan:Connect(function(Input)
@@ -2709,6 +2684,7 @@ do
     end;
 end;
 
+-- < Create other UI elements >
 do
     Library.NotificationArea = Library:Create('Frame', {
         BackgroundTransparency = 1;
@@ -3230,6 +3206,7 @@ function Library:CreateWindow(...)
             local BoxInner = Library:Create('Frame', {
                 BackgroundColor3 = Library.BackgroundColor;
                 BorderColor3 = Color3.new(0, 0, 0);
+                -- BorderMode = Enum.BorderMode.Inset;
                 Size = UDim2.new(1, -2, 1, -2);
                 Position = UDim2.new(0, 1, 0, 1);
                 ZIndex = 4;
@@ -3329,6 +3306,7 @@ function Library:CreateWindow(...)
             local BoxInner = Library:Create('Frame', {
                 BackgroundColor3 = Library.BackgroundColor;
                 BorderColor3 = Color3.new(0, 0, 0);
+                -- BorderMode = Enum.BorderMode.Inset;
                 Size = UDim2.new(1, -2, 1, -2);
                 Position = UDim2.new(0, 1, 0, 1);
                 ZIndex = 4;
@@ -3484,6 +3462,7 @@ function Library:CreateWindow(...)
                 Tab:AddBlank(3);
                 Tab:Resize();
 
+                -- Show first tab (number is 2 cus of the UIListLayout that also sits in that instance)
                 if #TabboxButtons:GetChildren() == 2 then
                     Tab:Show();
                 end;
@@ -3510,6 +3489,7 @@ function Library:CreateWindow(...)
             end;
         end);
 
+        -- This was the first tab added, so we show it by default.
         if #TabContainer:GetChildren() == 1 then
             Tab:ShowTab();
         end;
@@ -3542,9 +3522,11 @@ function Library:CreateWindow(...)
         ModalElement.Modal = Toggled;
 
         if Toggled then
+            -- A bit scuffed, but if we're going from not toggled -> toggled we want to show the frame immediately so that the fade is visible.
             Outer.Visible = true;
 
             task.spawn(function()
+                -- TODO: add cursor fade?
                 local State = InputService.MouseIconEnabled;
 
                 local Cursor = Drawing.new('Triangle');
