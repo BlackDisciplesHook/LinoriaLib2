@@ -309,7 +309,7 @@ function Library:MapValue(Value, MinA, MaxA, MinB, MaxB)
 end;
 
 function Library:GetTextBounds(Text, Font, Size, Resolution)
-    local Bounds = TextService:GetTextSize(Text, 12, Font, Resolution or Vector2.new(1920, 1080))
+    local Bounds = TextService:GetTextSize(Text, Size, Font, Resolution or Vector2.new(1920, 1080))
     return Bounds.X, Bounds.Y
 end;
 
@@ -615,7 +615,8 @@ do
         local RgbBox = Library:Create(RgbBoxBase.Frame:FindFirstChild('TextBox'), {
             Text = '255, 255, 255',
             PlaceholderText = 'RGB color',
-            TextColor3 = Library.FontColor
+            TextColor3 = Library.FontColor,
+            FontFace = Library.FontFace;
         });
 
         local TransparencyBoxOuter, TransparencyBoxInner, TransparencyCursor;
@@ -669,8 +670,8 @@ do
             Parent = PickerFrameInner;
         });
 
-
         local ContextMenu = {}
+
         do
             ContextMenu.Options = {}
             ContextMenu.Container = Library:Create('Frame', {
