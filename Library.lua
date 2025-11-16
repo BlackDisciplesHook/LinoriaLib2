@@ -3143,7 +3143,7 @@ function Library:CreateWindow(...)
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = 90;
+            Rotation = -90;
             Parent = TabButton;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -3189,7 +3189,7 @@ function Library:CreateWindow(...)
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = 90;
+            Rotation = -90;
             Parent = TabFrame;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
