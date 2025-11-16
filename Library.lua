@@ -445,15 +445,6 @@ do
             Parent = ToggleLabel;
         });
 
-        local Gradient = Library:Create("UIGradient", {
-            Rotation = 90;
-            Parent = DisplayFrame;
-            Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
-            });
-        })
-
         -- Transparency image taken from https://github.com/matas3535/SplixPrivateDrawingLibrary/blob/main/Library.lua cus i'm lazy
         local CheckerFrame = Library:Create('ImageLabel', {
             BorderSizePixel = 0;
@@ -1186,7 +1177,7 @@ do
                 end;
             end;
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 25)
+            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
         end;
 
         function KeyPicker:GetState()
@@ -2457,15 +2448,6 @@ do
                     Parent = Scrolling;
                 });
 
-                local Gradient = Library:Create("UIGradient", {
-                    Rotation = 90;
-                    Parent = Button;
-                    Color = ColorSequence.new({
-                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-                        ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
-                    });
-                })
-
                 Library:AddToRegistry(Button, {
                     BackgroundColor3 = 'MainColor';
                     BorderColor3 = 'OutlineColor';
@@ -2792,15 +2774,6 @@ do
         Parent = WatermarkOuter;
     });
 
-    local Gradient = Library:Create("UIGradient", {
-        Rotation = 90;
-        Parent = WatermarkInner;
-        Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
-        });
-    })
-
     Library:AddToRegistry(WatermarkInner, {
         BorderColor3 = 'AccentColor';
     });
@@ -2885,15 +2858,6 @@ do
         ZIndex = 102;
         Parent = KeybindInner;
     });
-
-    local Gradient = Library:Create("UIGradient", {
-        Rotation = 90;
-        Parent = ColorFrame;
-        Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
-        });
-    })
 
     Library:AddToRegistry(ColorFrame, {
         BackgroundColor3 = 'AccentColor';
