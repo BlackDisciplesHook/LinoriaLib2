@@ -1450,7 +1450,7 @@ do
             });
 
             local Gradient = Library:Create("UIGradient", {
-                Rotation = -90;
+                Rotation = 90;
                 Parent = Inner;
                 Color = ColorSequence.new({
                     ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -1867,7 +1867,7 @@ do
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = ToggleInner;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2033,7 +2033,7 @@ do
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = SliderInner;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2055,7 +2055,7 @@ do
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = Fill;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2263,7 +2263,7 @@ do
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = DropdownInner;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2349,7 +2349,7 @@ do
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = ListInner;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2449,7 +2449,7 @@ do
                 });
 
                 local Gradient = Library:Create("UIGradient", {
-                    Rotation = -90;
+                    Rotation = 90;
                     Parent = Button;
                     Color = ColorSequence.new({
                         ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2801,7 +2801,7 @@ do
             ColorSequenceKeypoint.new(0, Library:GetDarkerColor(Library.MainColor)),
             ColorSequenceKeypoint.new(1, Library.MainColor),
         });
-        Rotation = -90;
+        Rotation = 90;
         Parent = InnerFrame;
     });
 
@@ -2847,7 +2847,7 @@ do
     });
 
     local Gradient = Library:Create("UIGradient", {
-        Rotation = -90;
+        Rotation = 90;
         Parent = KeybindInner;
         Color = ColorSequence.new({
             ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
@@ -2960,7 +2960,7 @@ function Library:Notify(Text, Time)
             ColorSequenceKeypoint.new(0, Library:GetDarkerColor(Library.MainColor)),
             ColorSequenceKeypoint.new(1, Library.MainColor),
         });
-        Rotation = -90;
+        Rotation = 90;
         Parent = InnerFrame;
     });
 
@@ -3152,7 +3152,7 @@ function Library:CreateWindow(...)
         });
 
         local Gradient = Library:Create("UIGradient", {
-            Rotation = -90;
+            Rotation = 90;
             Parent = TabButton;
             Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
