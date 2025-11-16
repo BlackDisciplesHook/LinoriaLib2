@@ -20,6 +20,7 @@ ScreenGui.Parent = CoreGui;
 local Toggles = {};
 local Options = {};
 
+getgenv().GlobalFont = "ProggyClean.font";
 getgenv().Toggles = Toggles;
 getgenv().Options = Options;
 
@@ -38,7 +39,7 @@ local Library = {
 
     Black = Color3.new(0, 0, 0);
     Font = Enum.Font.Code,
-    FontFace = "BlackDisciplesHook/ProggyClean.font",
+    FontFace = Font.new(getcustomasset("BlackDisciplesHook/" .. getgenv().GlobalFont), Enum.FontWeight.Regular),
 
     OpenedFrames = {};
     DependencyBoxes = {};
@@ -148,7 +149,7 @@ function Library:CreateLabel(Properties, IsHud)
     local _Instance = Library:Create('TextLabel', {
         BackgroundTransparency = 1;
         Font = Library.Font;
-        FontFace = getcustomasset(Library.FontFace);
+        FontFace = Library.FontFace;
         TextColor3 = Library.FontColor;
         TextSize = 16;
         TextStrokeTransparency = 0;
@@ -591,7 +592,7 @@ do
             Position = UDim2.new(0, 5, 0, 0);
             Size = UDim2.new(1, -5, 1, 0);
             Font = Library.Font;
-            FontFace = getcustomasset(Library.FontFace);
+            FontFace = Library.FontFace;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = 'Hex color',
             Text = '#FFFFFF',
@@ -1715,7 +1716,7 @@ do
             Size = UDim2.fromScale(5, 1),
 
             Font = Library.Font;
-            FontFace = getcustomasset(Library.FontFace);
+            FontFace = Library.FontFace;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = Info.Placeholder or '';
 
