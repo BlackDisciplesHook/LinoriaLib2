@@ -592,7 +592,6 @@ do
             Position = UDim2.new(0, 5, 0, 0);
             Size = UDim2.new(1, -5, 1, 0);
             Font = Library.Font;
-            FontFace = Library.FontFace;
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = 'Hex color',
             Text = '#FFFFFF',
@@ -602,6 +601,7 @@ do
             TextXAlignment = Enum.TextXAlignment.Left;
             ZIndex = 20,
             Parent = HueBoxInner;
+            FontFace = Library.FontFace;
         });
 
         Library:ApplyTextStroke(HueBox);
