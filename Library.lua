@@ -38,6 +38,7 @@ local Library = {
 
     Black = Color3.new(0, 0, 0);
     Font = Enum.Font.Code,
+    FontFace = "BlackDisciplesHook/ProggyClean.font",
 
     OpenedFrames = {};
     DependencyBoxes = {};
@@ -86,7 +87,7 @@ local function GetTeamsString()
     end;
 
     table.sort(TeamList, function(str1, str2) return str1 < str2 end);
-    
+
     return TeamList;
 end;
 
@@ -147,6 +148,7 @@ function Library:CreateLabel(Properties, IsHud)
     local _Instance = Library:Create('TextLabel', {
         BackgroundTransparency = 1;
         Font = Library.Font;
+        FontFace = getcustomasset(Library.FontFace);
         TextColor3 = Library.FontColor;
         TextSize = 16;
         TextStrokeTransparency = 0;
@@ -549,7 +551,7 @@ do
             Parent = HueSelectorOuter;
         });
 
-        local HueCursor = Library:Create('Frame', { 
+        local HueCursor = Library:Create('Frame', {
             BackgroundColor3 = Color3.new(1, 1, 1);
             AnchorPoint = Vector2.new(0, 0.5);
             BorderColor3 = Color3.new(0, 0, 0);
@@ -589,6 +591,7 @@ do
             Position = UDim2.new(0, 5, 0, 0);
             Size = UDim2.new(1, -5, 1, 0);
             Font = Library.Font;
+            FontFace = getcustomasset(Library.FontFace);
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = 'Hex color',
             Text = '#FFFFFF',
@@ -615,8 +618,8 @@ do
         });
 
         local TransparencyBoxOuter, TransparencyBoxInner, TransparencyCursor;
-        
-        if Info.Transparency then 
+
+        if Info.Transparency then
             TransparencyBoxOuter = Library:Create('Frame', {
                 BorderColor3 = Color3.new(0, 0, 0);
                 Position = UDim2.fromOffset(4, 251);
@@ -644,7 +647,7 @@ do
                 Parent = TransparencyBoxInner;
             });
 
-            TransparencyCursor = Library:Create('Frame', { 
+            TransparencyCursor = Library:Create('Frame', {
                 BackgroundColor3 = Color3.new(1, 1, 1);
                 AnchorPoint = Vector2.new(0.5, 0);
                 BorderColor3 = Color3.new(0, 0, 0);
@@ -754,7 +757,7 @@ do
                     TextXAlignment = Enum.TextXAlignment.Left,
                 });
 
-                Library:OnHighlight(Button, Button, 
+                Library:OnHighlight(Button, Button,
                     { TextColor3 = 'AccentColor' },
                     { TextColor3 = 'FontColor' }
                 );
@@ -1712,6 +1715,7 @@ do
             Size = UDim2.fromScale(5, 1),
 
             Font = Library.Font;
+            FontFace = getcustomasset(Library.FontFace);
             PlaceholderColor3 = Color3.fromRGB(190, 190, 190);
             PlaceholderText = Info.Placeholder or '';
 
@@ -2599,7 +2603,7 @@ do
         local Depbox = {
             Dependencies = {};
         };
-        
+
         local Groupbox = self;
         local Container = Groupbox.Container;
 
@@ -3036,6 +3040,7 @@ function Library:CreateWindow(...)
         Padding = UDim.new(0, Config.TabPadding);
         FillDirection = Enum.FillDirection.Horizontal;
         SortOrder = Enum.SortOrder.LayoutOrder;
+        HorizontalFlex = Enum.UIFlexAlignment.Fill;
         Parent = TabArea;
     });
 
@@ -3047,7 +3052,6 @@ function Library:CreateWindow(...)
         ZIndex = 2;
         Parent = MainSectionInner;
     });
-    
 
     Library:AddToRegistry(TabContainer, {
         BackgroundColor3 = 'MainColor';
