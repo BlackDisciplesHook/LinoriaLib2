@@ -668,8 +668,9 @@ do
             TextWrapped = false;
             ZIndex = 16;
             Parent = PickerFrameInner;
+            FontFace = Library.FontFace;
         });
-
+        
         local ContextMenu = {}
 
         do
@@ -1448,6 +1449,15 @@ do
                 Parent = Outer;
             });
 
+            local Gradient = Library:Create("UIGradient", {
+                Rotation = -90;
+                Parent = Inner;
+                Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                    ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+                });
+            })
+
             local Label = Library:CreateLabel({
                 Size = UDim2.new(1, 0, 1, 0);
                 TextSize = 12;
@@ -1856,6 +1866,15 @@ do
             Parent = ToggleOuter;
         });
 
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = ToggleInner;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
+
         Library:AddToRegistry(ToggleInner, {
             BackgroundColor3 = 'MainColor';
             BorderColor3 = 'OutlineColor';
@@ -2013,6 +2032,15 @@ do
             Parent = SliderOuter;
         });
 
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = SliderInner;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
+
         Library:AddToRegistry(SliderInner, {
             BackgroundColor3 = 'MainColor';
             BorderColor3 = 'OutlineColor';
@@ -2025,6 +2053,15 @@ do
             ZIndex = 7;
             Parent = SliderInner;
         });
+
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = Fill;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
 
         Library:AddToRegistry(Fill, {
             BackgroundColor3 = 'AccentColor';
@@ -2225,6 +2262,15 @@ do
             Parent = DropdownOuter;
         });
 
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = DropdownInner;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
+
         Library:AddToRegistry(DropdownInner, {
             BackgroundColor3 = 'MainColor';
             BorderColor3 = 'OutlineColor';
@@ -2301,6 +2347,15 @@ do
             ZIndex = 21;
             Parent = ListOuter;
         });
+
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = ListInner;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
 
         Library:AddToRegistry(ListInner, {
             BackgroundColor3 = 'MainColor';
@@ -2392,6 +2447,15 @@ do
                     Active = true,
                     Parent = Scrolling;
                 });
+
+                local Gradient = Library:Create("UIGradient", {
+                    Rotation = -90;
+                    Parent = Button;
+                    Color = ColorSequence.new({
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+                    });
+                })
 
                 Library:AddToRegistry(Button, {
                     BackgroundColor3 = 'MainColor';
@@ -2782,6 +2846,15 @@ do
         Parent = KeybindOuter;
     });
 
+    local Gradient = Library:Create("UIGradient", {
+        Rotation = -90;
+        Parent = KeybindInner;
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+        });
+    })
+
     Library:AddToRegistry(KeybindInner, {
         BackgroundColor3 = 'MainColor';
         BorderColor3 = 'OutlineColor';
@@ -3078,6 +3151,15 @@ function Library:CreateWindow(...)
             Parent = TabArea;
         });
 
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = TabButton;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
+
         Library:AddToRegistry(TabButton, {
             BackgroundColor3 = 'BackgroundColor';
             BorderColor3 = 'OutlineColor';
@@ -3114,6 +3196,15 @@ function Library:CreateWindow(...)
             ZIndex = 2;
             Parent = TabContainer;
         });
+
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = -90;
+            Parent = TabFrame;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
 
         local LeftSide = Library:Create('ScrollingFrame', {
             BackgroundTransparency = 1;
