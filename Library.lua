@@ -1186,7 +1186,7 @@ do
                 end;
             end;
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
+            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 25)
         end;
 
         function KeyPicker:GetState()
@@ -2885,6 +2885,15 @@ do
         ZIndex = 102;
         Parent = KeybindInner;
     });
+
+    local Gradient = Library:Create("UIGradient", {
+        Rotation = 90;
+        Parent = ColorFrame;
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+        });
+    })
 
     Library:AddToRegistry(ColorFrame, {
         BackgroundColor3 = 'AccentColor';
