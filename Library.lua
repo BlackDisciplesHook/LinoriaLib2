@@ -2814,9 +2814,9 @@ do
     local KeybindContainer = Library:Create('Frame', {
         BackgroundTransparency = 1;
         Size = UDim2.new(1, 0, 1, -20);
-        Position = UDim2.new(0, 0, 0, 20);
+        Position = UDim2.new(0, 0, 0, 175);
         ZIndex = 1;
-        Parent = KeybindInner;
+        Parent = KeybindInner
     });
 
     Library:Create('UIListLayout', {
