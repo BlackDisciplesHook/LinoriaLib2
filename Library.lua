@@ -445,6 +445,15 @@ do
             Parent = ToggleLabel;
         });
 
+        local Gradient = Library:Create("UIGradient", {
+            Rotation = 90;
+            Parent = DisplayFrame;
+            Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+            });
+        })
+
         -- Transparency image taken from https://github.com/matas3535/SplixPrivateDrawingLibrary/blob/main/Library.lua cus i'm lazy
         local CheckerFrame = Library:Create('ImageLabel', {
             BorderSizePixel = 0;
@@ -2782,6 +2791,15 @@ do
         ZIndex = 201;
         Parent = WatermarkOuter;
     });
+
+    local Gradient = Library:Create("UIGradient", {
+        Rotation = 90;
+        Parent = WatermarkInner;
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+        });
+    })
 
     Library:AddToRegistry(WatermarkInner, {
         BorderColor3 = 'AccentColor';
