@@ -1177,7 +1177,7 @@ do
                 end;
             end;
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
+            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 25)
         end;
 
         function KeyPicker:GetState()
@@ -2854,7 +2854,7 @@ do
     local ColorFrame = Library:Create('Frame', {
         BackgroundColor3 = Library.AccentColor;
         BorderSizePixel = 0;
-        Size = UDim2.new(1, 0, 0, 2);
+        Size = UDim2.new(1, 0, 0, 1);
         ZIndex = 102;
         Parent = KeybindInner;
     });
@@ -2865,7 +2865,7 @@ do
 
     local KeybindLabel = Library:CreateLabel({
         Size = UDim2.new(1, 0, 0, 20);
-        Position = UDim2.fromOffset(5, 2),
+        Position = UDim2.fromOffset(5, 1),
         TextXAlignment = Enum.TextXAlignment.Left,
 
         Text = 'Keybinds';
@@ -2876,7 +2876,7 @@ do
     local KeybindContainer = Library:Create('Frame', {
         BackgroundTransparency = 1;
         Size = UDim2.new(1, 0, 1, -20);
-        Position = UDim2.new(0, 0, 0, 175);
+        Position = UDim2.new(0, 0, 0, 200);
         ZIndex = 1;
         Parent = KeybindInner;
     });
