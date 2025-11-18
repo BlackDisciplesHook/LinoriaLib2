@@ -1152,10 +1152,6 @@ do
         end;
 
         function KeyPicker:Update()
-            if Info.NoUI then
-                return;
-            end;
-
             local State = KeyPicker:GetState();
 
             ContainerLabel.Text = string.format('[%s] %s (%s)', KeyPicker.Value, Info.Text, KeyPicker.Mode);
@@ -1177,7 +1173,7 @@ do
                 end;
             end;
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 23)
+            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 25)
         end;
 
         function KeyPicker:GetState()
@@ -1207,6 +1203,36 @@ do
             KeyPicker.Value = Key;
             ModeButtons[Mode]:Select();
             KeyPicker:Update();
+        end;
+
+        function KeyPicker:SetNoUI(Bool)
+            KeyPicker.NoUI = Bool
+
+            if Bool then
+                if ContainerLabel then
+                    ContainerLabel.Visible = false;
+                end;
+
+                if ModeSelectOuter then
+                    ModeSelectOuter.Visible = false;
+                end;
+
+                if PickOuter then
+                    PickOuter.Active = false;
+                end;
+
+                KeyPicker:Update()
+            else
+                if ContainerLabel then
+                    ContainerLabel.Visible = true;
+                end;
+
+                if PickOuter then
+                    PickOuter.Active = true;
+                end;
+
+                KeyPicker:Update()
+            end
         end;
 
         function KeyPicker:OnClick(Callback)
