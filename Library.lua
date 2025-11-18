@@ -1156,7 +1156,7 @@ do
 
             ContainerLabel.Text = string.format('[%s] %s (%s)', KeyPicker.Value, Info.Text, KeyPicker.Mode);
 
-            ContainerLabel.Visible = not KeyPicker.NoUI;
+            ContainerLabel.Visible = not Info.NoUI;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
 
             Library.RegistryMap[ContainerLabel].Properties.TextColor3 = State and 'AccentColor' or 'FontColor';
@@ -1234,8 +1234,6 @@ do
                 KeyPicker:Update()
             end
         end;
-
-        KeyPicker:Update();
 
         function KeyPicker:OnClick(Callback)
             KeyPicker.Clicked = Callback
@@ -1353,8 +1351,6 @@ do
                 KeyPicker:Update();
             end;
         end))
-
-        KeyPicker:Update();
 
         Options[Idx] = KeyPicker;
 
