@@ -1156,7 +1156,7 @@ do
 
             ContainerLabel.Text = string.format('[%s] %s (%s)', KeyPicker.Value, Info.Text, KeyPicker.Mode);
 
-            ContainerLabel.Visible = not Info.NoUI;
+            ContainerLabel.Visible = not KeyPicker.NoUI;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
 
             Library.RegistryMap[ContainerLabel].Properties.TextColor3 = State and 'AccentColor' or 'FontColor';
