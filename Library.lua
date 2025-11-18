@@ -1262,7 +1262,11 @@ do
                     local Key;
 
                     if Input.UserInputType == Enum.UserInputType.Keyboard then
-                        Key = Input.KeyCode.Name;
+                        if not Input.KeyCode.Backspace then
+                            Key = Input.KeyCode.Name;
+                        else
+                            Key = "None";
+                        end
                     elseif Input.UserInputType == Enum.UserInputType.MouseButton1 then
                         Key = 'MB1';
                     elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
