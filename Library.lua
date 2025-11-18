@@ -1262,7 +1262,7 @@ do
                     local Key;
 
                     if Input.UserInputType == Enum.UserInputType.Keyboard then
-                        if not Input.KeyCode.Backspace then
+                        if not Input.KeyCode.Name == "Backspace" then
                             Key = Input.KeyCode.Name;
                         else
                             Key = "None";
