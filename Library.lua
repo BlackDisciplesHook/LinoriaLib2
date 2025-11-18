@@ -1235,6 +1235,8 @@ do
             end
         end;
 
+        KeyPicker:Update();
+
         function KeyPicker:OnClick(Callback)
             KeyPicker.Clicked = Callback
         end
