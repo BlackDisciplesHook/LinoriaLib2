@@ -1294,7 +1294,7 @@ do
                             local KeyName = Input.KeyCode.Name
                             
                             if KeyName == "Backspace" then
-                                Key = "None"
+                                Key = ""
                             elseif KeyName == "RightShift" then
                                 Key = "RS"
                             elseif KeyName == "LeftShift" then
