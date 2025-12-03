@@ -1288,12 +1288,50 @@ do
                     local Key;
 
                     if Input.UserInputType == Enum.UserInputType.Keyboard then
-                        Key = (Input.KeyCode.Name ~= "Backspace") and Input.KeyCode.Name or "None"
+                        local KeyName = Input.KeyCode.Name
+                        
+                        if KeyName:find("NumPad") then
+                            Key = KeyName:gsub("NumPad", "NP")
+                        elseif KeyName == "Backspace" then
+                            Key = "None"
+                        elseif KeyName == "RightShift" then
+                            Key = "RS"
+                        elseif KeyName == "LeftShift" then
+                            Key = "LS"
+                        elseif KeyName == "RightControl" then
+                            Key = "RC"
+                        elseif KeyName == "LeftControl" then
+                            Key = "LC"
+                        elseif KeyName == "RightAlt" then
+                            Key = "RA"
+                        elseif KeyName == "LeftAlt" then
+                            Key = "LA"
+                        elseif KeyName == "Return" then
+                            Key = "Enter"
+                        elseif KeyName == "Escape" then
+                            Key = "Esc"
+                        elseif KeyName == "PageUp" then
+                            Key = "PgUp"
+                        elseif KeyName == "PageDown" then
+                            Key = "PgDn"
+                        elseif KeyName == "Insert" then
+                            Key = "Ins"
+                        elseif KeyName == "Delete" then
+                            Key = "Del"
+                        elseif KeyName == "CapsLock" then
+                            Key = "Caps"
+                        elseif KeyName == "ScrollLock" then
+                            Key = "Scrl"
+                        elseif KeyName == "NumLock" then
+                            Key = "Num"
+                        else
+                            Key = KeyName
+                        end
                     elseif Input.UserInputType == Enum.UserInputType.MouseButton1 then
-                        Key = 'MB1';
+                        Key = 'MB1'
                     elseif Input.UserInputType == Enum.UserInputType.MouseButton2 then
-                        Key = 'MB2';
-                    end;
+                        Key = 'MB2'
+                    end
 
                     Break = true;
                     Picking = false;
