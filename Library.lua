@@ -1,3 +1,18 @@
+writefile("ProggyClean.ttf", game:HttpGet("https://github.com/cutelilfemboy12/Resources/raw/refs/heads/main/ProggyClean.ttf"))
+
+local ProggyClean = {
+    name = "ProggyClean",
+    faces = {
+        {
+            name = "Regular",
+            weight = 400,
+            style = "normal",
+            assetId = getcustomasset("ProggyClean.ttf")
+        }
+    }
+}
+
+writefile("ProggyClean.font", game:GetService("HttpService"):JSONEncode(ProggyClean))
 
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
@@ -40,7 +55,7 @@ local Library = {
 
     Black = Color3.new(0, 0, 0);
     Font = Enum.Font.Code,
-    FontFace = Font.new(getcustomasset("BlackDisciplesHook/ProggyClean.font"), Enum.FontWeight.Regular),
+    FontFace = Font.new(getcustomasset("ProggyClean.font"), Enum.FontWeight.Regular),
 
     OpenedFrames = {};
     DependencyBoxes = {};
