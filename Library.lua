@@ -2935,6 +2935,84 @@ do
     Library.KeybindFrame = KeybindOuter;
     Library.KeybindContainer = KeybindContainer;
     Library:MakeDraggable(KeybindOuter);
+
+    local TargetOuter = Library:Create('Frame', {
+        AnchorPoint = Vector2.new(0, 0.5);
+        BorderColor3 = Color3.new(0, 0, 0);
+        Position = UDim2.new(0, 10, 0.5, -30);
+        Size = UDim2.new(0, 210, 0, 20);
+        Visible = false;
+        ZIndex = 100;
+        Parent = ScreenGui;
+    });
+
+    local TargetInner = Library:Create('Frame', {
+        BackgroundColor3 = Library.MainColor;
+        BorderColor3 = Library.OutlineColor;
+        BorderMode = Enum.BorderMode.Inset;
+        Size = UDim2.new(1, 0, 1, 0);
+        ZIndex = 101;
+        Parent = TargetOuter;
+    });
+
+    local Gradient = Library:Create("UIGradient", {
+        Rotation = 90;
+        Parent = TargetInner;
+        Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(185, 185, 185))
+        });
+    })
+
+    Library:AddToRegistry(TargetInner, {
+        BackgroundColor3 = 'MainColor';
+        BorderColor3 = 'OutlineColor';
+    }, true);
+
+    local ColorFrame = Library:Create('Frame', {
+        BackgroundColor3 = Library.AccentColor;
+        BorderSizePixel = 0;
+        Size = UDim2.new(1, 0, 0, 1);
+        ZIndex = 102;
+        Parent = TargetInner;
+    });
+
+    Library:AddToRegistry(ColorFrame, {
+        BackgroundColor3 = 'AccentColor';
+    }, true);
+
+    local TargetLabel = Library:CreateLabel({
+        Size = UDim2.new(1, 0, 0, 20);
+        Position = UDim2.fromOffset(5, 1),
+        TextXAlignment = Enum.TextXAlignment.Left,
+
+        Text = 'Target';
+        ZIndex = 104;
+        Parent = TargetInner;
+    });
+
+    local TargetContainer = Library:Create('Frame', {
+        BackgroundTransparency = 1;
+        Size = UDim2.new(1, 0, 1, -20);
+        Position = UDim2.new(0, 0, 0, 20);
+        ZIndex = 1;
+        Parent = TargetInner;
+    });
+
+    Library:Create('UIListLayout', {
+        FillDirection = Enum.FillDirection.Vertical;
+        SortOrder = Enum.SortOrder.LayoutOrder;
+        Parent = TargetContainer;
+    });
+
+    Library:Create('UIPadding', {
+        PaddingLeft = UDim.new(0, 5),
+        Parent = TargetContainer,
+    })
+
+    Library.TargetFrame = TargetOuter;
+    Library.TargetContainer = TargetContainer;
+    Library:MakeDraggable(TargetOuter);
 end;
 
 function Library:SetWatermarkVisibility(Bool)
@@ -2947,6 +3025,44 @@ function Library:SetWatermark(Text)
     Library:SetWatermarkVisibility(true)
 
     Library.WatermarkText.Text = Text;
+end;
+
+local function BuildIndicatorText(Player, Hitchance, IsFlagBearer) -- just a helper function for the target indicator
+    local lines = {}
+
+    for flag, enabled in next, SilentAim.TargetIndicator.Flags do
+        if enabled then
+            if flag == "Name" then
+                table.insert(lines, "Name: " .. Player.Name)
+            elseif flag == "Health" then
+                table.insert(lines, "Health: " .. math.floor(Player.Character.Humanoid.Health) .. "hp")
+            elseif flag == "Distance" then
+                local d = (Camera.CFrame.Position - Player.Character:GetPivot().Position).Magnitude
+                table.insert(lines, "Distance: " .. math.floor(d) .. "m")
+            elseif flag == "Hitchance" then
+                table.insert(lines, "Hitchance: " .. Hitchance .. "%")
+            elseif flag == "Flagbearer" then
+                table.insert(lines, "Flagbearer: " .. tostring(IsFlagBearer))
+            end
+        end
+    end
+
+    return table.concat(lines, "\n")
+end
+
+function Library:SetTargetVisiblity(Bool)
+    Library.TargetOuter.Visible = Bool;
+end;
+
+function Library:SetTarget(TargetInfo)
+    TargetContainer:ClearAllChildren()
+    
+    local Label = Library:CreateLabel({
+        Text = BuildIndicatorText(TargetInfo.Player, TargetInfo.Hitchance, TargetInfo.IsFlagBearer);
+        TextXAlignment = Enum.TextXAlignment.Left;
+        Size = UDim2.new(1, 0, 0, 20);
+        Parent = TargetContainer;
+    })
 end;
 
 function Library:Notify(Text, Time)
