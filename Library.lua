@@ -3054,16 +3054,43 @@ function Library:SetTargetVisiblity(Bool)
     Library.TargetOuter.Visible = Bool;
 end;
 
-function Library:SetTarget(TargetInfo)
-    TargetContainer:ClearAllChildren()
-    
-    local Label = Library:CreateLabel({
-        Text = BuildIndicatorText(TargetInfo.Player, TargetInfo.Hitchance, TargetInfo.IsFlagBearer);
-        TextXAlignment = Enum.TextXAlignment.Left;
-        Size = UDim2.new(1, 0, 0, 20);
-        Parent = TargetContainer;
-    })
-end;
+function Library:UpdateTargetIndicator(TargetData)
+    Library.TargetFrame.Visible = TargetData.Enabled
+
+    if not TargetData.Enabled then return end
+
+    Library.TargetContainer:ClearAllChildren()
+
+    if TargetData.Target then
+        local IndicatorText = TargetData.BuildText(TargetData.Target)
+        local Lines = string.split(IndicatorText, "\n")
+
+        local YSize = 0
+        local XSize = 0
+
+        for Index, Line in Next, Lines do
+            local LineLabel = Library:CreateLabel({
+                Text = Line,
+                Size = UDim2.new(1, 0, 0, 18),
+                Position = UDim2.new(0, 0, 0, YSize),
+                TextXAlignment = Enum.TextXAlignment.Left,
+                TextSize = 12,
+                ZIndex = 110,
+                Parent = Library.TargetContainer
+            }, true)
+
+            YSize = YSize + 18
+            if LineLabel.TextBounds.X > XSize then
+                XSize = LineLabel.TextBounds.X
+            end
+        end
+
+        Library.TargetFrame.Size = UDim2.new(0, math.max(XSize + 10, 210), 0, YSize + 20)
+        Library.TargetFrame.Position = UDim2.new(0, 10, 0.5, -Library.TargetFrame.AbsoluteSize.Y / 2)
+    else
+        Library.TargetFrame.Visible = false
+    end
+end
 
 function Library:Notify(Text, Time)
     local XSize, YSize = Library:GetTextBounds(Text, Library.Font, 14);
