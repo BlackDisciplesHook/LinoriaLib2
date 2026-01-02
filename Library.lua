@@ -773,7 +773,7 @@ do
                     Text = Str;
                     ZIndex = 16;
                     Parent = self.Inner;
-                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextXAlignment = Enum.TextXAlignment.Center,
                 });
 
                 Library:OnHighlight(Button, Button,
