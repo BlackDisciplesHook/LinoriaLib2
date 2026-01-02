@@ -3655,12 +3655,14 @@ function Library:CreateWindow(...)
                 Cursor.Thickness = 1;
                 Cursor.Filled = true;
                 Cursor.Visible = true;
+                Cursor.ZIndex = 9e8;
 
                 local CursorOutline = Drawing.new('Triangle');
                 CursorOutline.Thickness = 1;
                 CursorOutline.Filled = false;
                 CursorOutline.Color = Color3.new(0, 0, 0);
                 CursorOutline.Visible = true;
+                CursorOutline.ZIndex = 9e8;
 
                 while Toggled and ScreenGui.Parent do
                     InputService.MouseIconEnabled = false;
